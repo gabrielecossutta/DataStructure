@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-unsigned int list_length(struct set_node *head)
+unsigned int ListLength(struct SetNode *head)
 {
     int i = 0;
     while (head)
@@ -14,18 +14,18 @@ unsigned int list_length(struct set_node *head)
     return i;
 }
 
-struct set_node* list_append(struct set_table *table, const char* item, size_t key_len,size_t index)
+struct SetNode* ListAppend(struct SetTable *table, const char* item, size_t KeyLen,size_t index)
 {
     
-    struct set_node *head = table->nodes[index];
-    struct set_node *new_item = malloc(sizeof(struct set_node));
+    struct SetNode *head = table->nodes[index];
+    struct SetNode *new_item = malloc(sizeof(struct SetNode));
     if (!new_item)
     {
         return NULL;
     }
 
     new_item->key = item;
-    new_item->key_len = key_len;
+    new_item->KeyLen = KeyLen;
     new_item->next = NULL;
 
     if (!head)
@@ -36,7 +36,7 @@ struct set_node* list_append(struct set_table *table, const char* item, size_t k
     }
 
     //append the new key
-    struct set_node *tail = head;
+    struct SetNode *tail = head;
     while (tail->next)
     {
         tail = tail->next;
@@ -47,11 +47,11 @@ struct set_node* list_append(struct set_table *table, const char* item, size_t k
     return new_item;
 }
 
-int list_remove_item(struct set_table *table, const char* item, size_t index)
+int ListRemoveItem(struct SetTable *table, const char* item, size_t index)
 {
     
-    struct set_node *head = table->nodes[index];
-    struct set_node *previous = NULL;
+    struct SetNode *head = table->nodes[index];
+    struct SetNode *previous = NULL;
     if (previous)//if the node is the first we need to reimpost the previous node
     {
        previous->next = head->next;
@@ -68,7 +68,7 @@ int list_remove_item(struct set_table *table, const char* item, size_t index)
 }
 
 
-void print_list(struct set_node *head,int i)
+void PrintList(struct SetNode *head,int i)
 {
     printf("Node %d: ", i);
         while (head)

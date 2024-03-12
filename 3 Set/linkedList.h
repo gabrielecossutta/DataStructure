@@ -1,21 +1,21 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-struct set_node
+struct SetNode
 {
     const char *key; //string of the node
-    size_t key_len; //string length
-    struct set_node *next;//pointer of the next node
+    size_t KeyLen; //string length
+    struct SetNode *next;//pointer of the next node
 };
 
-struct set_table // contain all the nodes
+struct SetTable // contain all the nodes
 {
-    struct set_node **nodes; //pointer of nodes
-    size_t hashmap_size;
+    struct SetNode **nodes; //pointer of nodes
+    size_t HashmapSize;
 };
 
 //function declaration
-struct set_node* list_append(struct set_table *table, const char* item,size_t key_len,size_t index);
-int list_remove_item(struct set_table *table, const char* item,size_t index);
-void print_list(struct set_node *head, int i);
+struct SetNode* ListAppend(struct SetTable *table, const char* item,size_t KeyLen,size_t index);
+int ListRemoveItem(struct SetTable *table, const char* item,size_t index);
+void PrintList(struct SetNode *head, int i);
 #endif

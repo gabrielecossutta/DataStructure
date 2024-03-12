@@ -1,56 +1,56 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-struct list_item
+struct ListItem
 {
-    struct list_item *next; //pointer of the next node
-    struct list_item *prev; //pointer of the previous node
+    struct ListItem *next; //pointer of the next node
+    struct ListItem *prev; //pointer of the previous node
     int value;  //value of the pointer
 };
 
-struct list_item *list_get_tail( struct list_item **head)//return the last node of the list
+struct ListItem *ListGetTail( struct ListItem **head)//return the last node of the list
 {
     if (!head || !(*head))
     {
         printf("the list is empty or not initializzated.\n");
         return NULL;
     }
-    struct list_item *current_item = *head; //copy of the list
-    while (current_item->next) //scrolls the list until it find the last element with no next node 
+    struct ListItem *CurrentItem = *head; //copy of the list
+    while (CurrentItem->next) //scrolls the list until it find the last element with no next node 
     {
-        current_item = current_item->next;
+        CurrentItem = CurrentItem->next;
     }
-    return current_item;
+    return CurrentItem;
 }
 
-int list_append(struct  list_item **head,const int item) //allow to append a element at the end of the list
+int ListAppend(struct  ListItem **head,const int item) //allow to append a element at the end of the list
 {
     if (!head)
     {
         printf("the list is empty or not initializzated.\n");
         return -1;
     }
-    struct list_item *tail = list_get_tail(head);//last element of the list
+    struct ListItem *tail = ListGetTail(head);//last element of the list
     if (!tail)//if there is no tail it means that this element is the first of the list
     {
-        (*head) = malloc(sizeof(struct list_item));//alloc space for the node
+        (*head) = malloc(sizeof(struct ListItem));//alloc space for the node
         (*head)->value = item;
         (*head)->next = NULL;
         (*head)->prev=NULL;
     }
     else
     {
-        struct list_item *new_item = malloc(sizeof(struct list_item));//alloc space for the node
-        new_item->value = item;
-        new_item->next = NULL;
-        new_item->prev=tail;
-        tail->next = new_item;
+        struct ListItem *NewItem = malloc(sizeof(struct ListItem));//alloc space for the node
+        NewItem->value = item;
+        NewItem->next = NULL;
+        NewItem->prev=tail;
+        tail->next = NewItem;
     }
     printf("Value %d appended\n", item);
     return 0;
 };
 
-int list_append_after(struct list_item **head,const int item, const int index) //allow to append a element after another node given a index
+int ListAppendAfter(struct ListItem **head,const int item, const int index) //allow to append a element after another node given a index
 {
     if (!head)
     {
@@ -59,7 +59,7 @@ int list_append_after(struct list_item **head,const int item, const int index) /
     }
 
     int i = 1;
-    struct list_item *current = *head;
+    struct ListItem *current = *head;
 
     while (current && i < index)//search the note by the index
     {
@@ -74,23 +74,23 @@ int list_append_after(struct list_item **head,const int item, const int index) /
     }
 
     
-    struct list_item *new_item = malloc(sizeof(struct list_item)); //alloc space for the node
-    new_item->value = item;
-    new_item->prev = current;
-    new_item->next = current->next;
+    struct ListItem *NewItem = malloc(sizeof(struct ListItem)); //alloc space for the node
+    NewItem->value = item;
+    NewItem->prev = current;
+    NewItem->next = current->next;
 
     
     if (current->next)
     {
-        current->next->prev = new_item;
+        current->next->prev = NewItem;
     }
 
-    current->next = new_item;
+    current->next = NewItem;
     printf("\nValue %d appended after index %d\n", item,index);
     return 0;
 }
 
-int list_append_before(struct  list_item **head,const int item,const int index) //allow to append a element before another node given a index
+int ListAppendBefore(struct  ListItem **head,const int item,const int index) //allow to append a element before another node given a index
 {
     if (!head)
     {
@@ -99,7 +99,7 @@ int list_append_before(struct  list_item **head,const int item,const int index) 
     }
 
     int i = 1;
-    struct list_item *current = *head;
+    struct ListItem *current = *head;
 
     //serach  node by index
     while (current && i < index)
@@ -116,27 +116,27 @@ int list_append_before(struct  list_item **head,const int item,const int index) 
     }
 
     // Create new node
-    struct list_item *new_item = malloc(sizeof(struct list_item));
-    new_item->value = item;
-    new_item->next = current;
+    struct ListItem *NewItem = malloc(sizeof(struct ListItem));
+    NewItem->value = item;
+    NewItem->next = current;
     
     if (current->prev)
     {  
-        new_item->prev = current->prev;
-        current->prev->next = new_item;
-        current->prev = new_item;
+        NewItem->prev = current->prev;
+        current->prev->next = NewItem;
+        current->prev = NewItem;
     }
     else
     {
-        new_item->prev=NULL;
-        *head = new_item;
+        NewItem->prev=NULL;
+        *head = NewItem;
     }
     printf("\nValue %d appended before index %d\n", item,index);
     return 0;
 };
         
 
-int list_remove_index(struct list_item** head,const int index)
+int ListRemoveIndex(struct ListItem** head,const int index)
 {
     if (!head || index < 1)
     {
@@ -144,7 +144,7 @@ int list_remove_index(struct list_item** head,const int index)
         return -1;
     }
 
-    struct list_item* current = *head;
+    struct ListItem* current = *head;
 
     int i = 1;
     while (current && i < index) //search the node with the specified index
@@ -178,7 +178,7 @@ int list_remove_index(struct list_item** head,const int index)
     return 0;
 }
 
-int list_remove_item(struct list_item** head, const int item )
+int ListRemoveItem(struct ListItem** head, const int item )
 {
     if (!head)
     {
@@ -186,7 +186,7 @@ int list_remove_item(struct list_item** head, const int item )
         return -1;
     }
 
-    struct list_item* current = *head;
+    struct ListItem* current = *head;
     while (current && current->value != item) //search the node with the specified value
     {
         current = current->next;
@@ -217,7 +217,7 @@ int list_remove_item(struct list_item** head, const int item )
     return 0;
 }
 
-void print_list(const struct list_item *head)//allow to print the list
+void PrintList(const struct ListItem *head)//allow to print the list
 {
     printf("\n");
     int i=1;
@@ -233,31 +233,31 @@ void print_list(const struct list_item *head)//allow to print the list
 
 int main()
 {
-    struct list_item *head = NULL;
+    struct ListItem *head = NULL;
    
-    list_append(&head, 100);
-    list_append(&head, 200);
-    list_append(&head, 300);
-    list_append(&head, 400);
+    ListAppend(&head, 100);
+    ListAppend(&head, 200);
+    ListAppend(&head, 300);
+    ListAppend(&head, 400);
 
     printf("\nList:");
-    print_list(head);
+    PrintList(head);
 
-    list_remove_index(&head, 2);
+    ListRemoveIndex(&head, 2);
     printf("\n\nlist after removal of index 2: ");
-    print_list(head);
+    PrintList(head);
 
-    list_remove_item(&head, 100);
+    ListRemoveItem(&head, 100);
     printf("\n\nlist after removal of value 100: ");
-    print_list(head);
+    PrintList(head);
 
-    list_append_after(&head, 450, 2);
+    ListAppendAfter(&head, 450, 2);
     printf("\n\nlist after hanging after index 2: ");
-    print_list(head);
+    PrintList(head);
 
-    list_append_before(&head, 350, 2);
+    ListAppendBefore(&head, 350, 2);
     printf("\n\nlist before hanging after index 2:");
-    print_list(head);
+    PrintList(head);
 
     return 0;
 }
